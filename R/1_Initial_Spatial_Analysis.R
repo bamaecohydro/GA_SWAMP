@@ -235,6 +235,35 @@ tf-t0
 #pull results
 df<-bind_rows(x)
 
+#3.4 Export results ------------------------------------------------------------
+st_write(streams, paste0(workspace_dir,"streams.shp"), append=F)
+st_write(df, paste0(workspace_dir, "wetlands.shp"), append = F)
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #4.0 Export Map! -------------------------------------------------------
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#Load relevant data
+flowpaths<-st_read(paste0(workspace_dir,"streams.shp"))
+depressional_storage<-st_read(paste0(workspace_dir, "wetlands.shp"))
+
+#Load relevant libraries
+library(mapview)
+
+#Print map
+m<-mapview(
+    flowpaths, 
+    map.types=c("OpenTopoMap", "Esri.WorldImagery")) +
+  mapview(wetlands)
+
+#print map
+setwd("docs/")
+mapshot(m, "sheds.html")
+
+
+
+
+
+
+
+
+
